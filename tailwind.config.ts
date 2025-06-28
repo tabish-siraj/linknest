@@ -1,10 +1,13 @@
-export default{
-        content: [
+const config = {
+    content: [
         "./app/**/*.{js,ts,jsx,tsx}",
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
-    theme:{
-        extend:{},
+    theme: {
+        extend: {},
     },
     plugins: [],
+    darkMode: "class"
 }
+
+export default config;

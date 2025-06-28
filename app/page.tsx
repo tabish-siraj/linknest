@@ -1,38 +1,38 @@
 "use client";
-import { useEffect, useState } from "react";
+
 import BookmarkForm from "@/components/bookmark-form";
 import BookmarkCard from "@/components/bookmark-card";
-import { Bookmark } from "../src/types";
-import { loadBookmarks, saveBookmarks } from "@/lib/utils";
+import TagFilter from "@/components/tag-filter";
+import { useBookmarkStore } from "@/store/bookmark-store";
 
 export default function Home() {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const { bookmarks, activeTag, addBookmark, deleteBookmark, setActiveTag } = useBookmarkStore();
+  const filtered = activeTag
+    ? bookmarks.filter((b) => b.tags?.includes(activeTag))
+    : bookmarks;
 
-  useEffect(() => {
-    const stored = loadBookmarks()
-    setBookmarks(stored)
-  }, [])
+  const allTags = Array.from(new Set(bookmarks.flatMap((b) => b.tags || [])))
 
-  useEffect(() => {
-    saveBookmarks(bookmarks)
-
-  }, [bookmarks])
-
-  const addBookmark = (bookmark: Bookmark) => {
-    setBookmarks(prev => [...prev, bookmark]);
-  }
-
-  const deleteBookmark = (id: number) => {
-    setBookmarks(prev => prev.filter(b => b.id !== id))
-  }
   return (
     <main className="min-h-screen p-6 flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-6">LinkNest</h1>
       <BookmarkForm onAdd={addBookmark} />
-      <div className="mt-8 flex flex-col gap-4">
-        {bookmarks.map((bookmark) => (
-          <BookmarkCard key={bookmark.id} bookmark={bookmark} onDelete={deleteBookmark} />
-        ))}
+
+      <div className="w-full max-w-md mt-8">
+        <TagFilter
+          tags={allTags}
+          activeTag={activeTag}
+          onSelect={setActiveTag}
+        />
+
+        <div className="flex flex-col gap-4">
+          {filtered.map((b) => (
+            <BookmarkCard
+              key={b.id}
+              bookmark={b}
+              onDelete={deleteBookmark} />
+          ))}
+        </div>
       </div>
     </main>
   );
