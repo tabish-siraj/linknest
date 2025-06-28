@@ -6,6 +6,7 @@ import { Toaster } from "sonner";
 import { useEffect } from "react";
 import { useThemeStore } from "@/store/theme-store";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AuthProvider } from "@/components/auth-provider";
 
 export default function RootLayout({ children, }: Readonly<{
   children: React.ReactNode;
@@ -18,15 +19,17 @@ export default function RootLayout({ children, }: Readonly<{
   return (
     <html lang="en">
       <body>
-        <div dir="rtl">
-          <div className="relative size-32">
-            <div className="absolute start-0 top-0 size-14 p-4">
-              <ThemeToggle />
+        <AuthProvider>
+          <div dir="rtl">
+            <div className="relative size-32">
+              <div className="absolute start-0 top-0 size-14 p-4">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
-        </div>
-        {children}
-        <Toaster position="top-right" richColors closeButton /> {/* 🟡 Place this here */}
+          {children}
+          <Toaster position="top-right" richColors closeButton /> {/* 🟡 Place this here */}
+        </AuthProvider>
       </body>
     </html>
   );

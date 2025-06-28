@@ -1,3 +1,5 @@
+import { Session } from "@supabase/supabase-js";
+
 export interface Bookmark {
     id: number;
     title: string;
@@ -18,4 +20,9 @@ export type Theme = 'light' | 'dark' | 'system';
 export interface ThemeState {
     theme: Theme
     setTheme: (theme: Theme) => void
+}
+
+export interface AuthContextType {
+    session: Session | null
+    loading: boolean
 }
