@@ -1,8 +1,27 @@
+'use client'
+
+import { useAuth } from '@/components/auth-provider'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import AppLayout from '@/components/app-layout'
+
 export default function SettingsPage() {
+    const { session, loading } = useAuth()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!loading && !session) {
+            router.replace('/login')
+        }
+    }, [loading, session, router])
+
+    if (loading) return <p className="p-6">Loading...</p>
+    if (!session) return null
+
     return (
-        <div className="p-6">
+        <AppLayout>
             <h1 className="text-2xl font-bold mb-4">⚙️ Settings</h1>
-            <p>Here you’ll control preferences like theme, notifications, and more.</p>
-        </div>
+            <p>Your email: {session.user.email}</p>
+        </AppLayout>
     )
 }

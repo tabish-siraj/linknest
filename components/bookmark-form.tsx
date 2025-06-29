@@ -34,7 +34,7 @@ export default function BookForm({ onAdd }: { onAdd: (b: Bookmark) => void }) {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2 max-w-md">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2 w-md">
                 <FormField
                     control={form.control}
                     name="title"
