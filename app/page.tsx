@@ -17,7 +17,7 @@ export default function Home() {
   const router = useRouter()
   useEffect(() => {
     if (!sessionLoading && !session) {
-      router.replace('/')
+      router.replace('/login')
     }
   }, [sessionLoading, session, router])
   if (sessionLoading) return <p className="p-6">Loading...</p>
